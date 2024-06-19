@@ -1,0 +1,140 @@
+﻿@model digiturno.Models.TurnoGenerarModel
+@{
+    Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+}
+
+<style>
+    .ocultardiv {
+        display: none;
+    }
+
+    .ocultar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+
+    .visualizar {
+        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tamanioimage {
+        width: 150px;
+        height: 130px;
+    }
+
+    .hoverdiv:hover {
+        padding:5px
+    }
+
+</style>
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class=row>
+    <h4 class="text-center">TURNOS GOL</h4>
+</div>
+<br />
+
+
+@if (Model.Idturno == 0)
+{
+    <div style="margin: 13% 25% 13% 25%;">
+        <div class=row>
+            <b><h5 class="text-center">Ingrese su numero de documento</h5></b>
+            <div class="text-center">
+                <small class="text-danger">@ViewBag.mensaje</small>
+            </div>
+        </div>
+        <br />
+        <form action="@Url.Action("Turno", "Turno")" method="POST">
+            <input name="servicio" id="servicio" type="hidden" value="0" />
+            <input name="idturno" id="idturno" type="hidden" value="0" />
+            <div style="justify-content:center;display:flex;">
+                <input name="cedula" id="cedula" type="number" required placeholder="Cedula" />
+            </div>
+            <br />
+            <div style="justify-content:center;display:flex;" class="p-4">
+                <button class="btn btn-success" type="submit">Continuar</button>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+        <div class="col-sm-12">
+            @foreach (var item in Model.Servicios)
+            {
+                    <div class="col-sm-3" style="width:200px;background:red;padding:3%;margin:3px" >
+                        <img src="/Images/@item.Icono" class="tamanioimage center-block" onclick="servicio(@item.Id)">
+                        <p class="text-center">@item.Nombre</p>
+                    </div>
+            }
+            <br />
+        </div>
+
+        <br />
+        <div class="row">
+            <button class="btn btn-success" onclick="continuar()">Continuar</button>
+        </div>
+}
+
+
+<script>
+    var idservicio = 0;
+    var idturno = 0;
+        function continuar() {
+            var cedula = $("#cedula").val();
+            var url = '@Url.Action("Turno", "Turno")';
+            var form = $("<form>/<form>");
+            form.attr("action", url);
+            form.attr("method", "post");
+
+            var input1 = $("<input></input>");
+            input1.attr("name", "cedula");
+            input1.attr("type", "hidden");
+            input1.attr("value", "@Model.Cedula");
+
+            var input2 = $("<input></input>");
+            input2.attr("name", "servicio");
+            input2.attr("type", "hidden");
+            input2.attr("value", idservicio);
+
+            var input3 = $("<input></input>");
+            input3.attr("name", "idturno");
+            input3.attr("type", "hidden");
+            input3.attr("value", "@Model.Idturno");
+
+            form.append(input1);
+            form.append(input2);
+            form.append(input3);
+
+            $("body").append(form);
+            form.submit();
+
+        }
+
+    function servicio(e) {
+        idservicio = e;
+            console.log(e)
+        }
+
+    </script>
+

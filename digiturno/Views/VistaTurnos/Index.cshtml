@@ -1,0 +1,65 @@
+﻿@model List<digiturno.Models.VistaTurnosModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layouttables.cshtml";
+}
+
+<b><h3 class="text-center">TURNOS GOL</h3></b>
+<br />
+<div style="width:500px">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Turnos Pendientes
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Sucursal</th>
+                        <th>Modulo</th>
+                        <th>Turno</th>
+                        <th>Servicio</th>
+                        <th>Cliente</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Sucursal</th>
+                        <th>Modulo</th>
+                        <th>Turno</th>
+                        <th>Servicio</th>
+                        <th>Cliente</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr style="@(item.Esllamado ? "background:red":"")">
+                            <td>@item.Sucursal</td>
+                            <td>@item.Modulo</td>
+                            <td>@item.Turno</td>
+                            <td>@item.Servicio</td>
+                            <td>@item.Cedular</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function recargar() {
+           
+            window.location.href="@Url.Action("Index","VistaTurnos")"
+        }
+        setInterval(recargar, 5000)
+
+    })
+</script>
+
+
+
+

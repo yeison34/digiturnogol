@@ -1,0 +1,85 @@
+﻿@model digiturno.Models.AtencionClienteModel
+@{
+    ViewBag.Title = "Home Page";
+}
+<h6>usuario Ingreso @Model.Usuario</h6>
+<div>
+    <div class="row">
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-5">
+            <h2>Atención al cliente</h2>
+            <small>Realiza una llamada al cliente segun el servicio que usted atiende</small>
+        </div>
+        <div class="col-sm-6">
+
+        </div>
+
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-2">
+            <div class="bg-info" style="width:150px;height:150px; justify-content:center;display:flex;align-items:center">
+                <h1>@Model.Moduloatencion</h1>
+            </div>
+        </div>
+        @if (Model.Enatencion)
+        {
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>En Atención</h4>
+                        <p>Turno:@Model.Turno</p>
+                        <br />
+                        <p>Servicio:@Model.Servicio</p>
+                        <br />
+                        <p>Cedula: @Model.Cedula</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        @if (!Model.InicioAtencion)
+                        {
+                            <button class="btn btn-success" onclick="atender()">LLamar nuevamente</button>
+                            <button class="btn btn-success" onclick="iniciarAtencion()">Iniciar Atención</button>
+                            <button class="btn btn-danger" onclick="noSePresento()">No se presento</button>
+                        }
+                        else { 
+                            <button class="btn btn-info" onclick="terminarAtencion()">Terminar Atención</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-9 p-5">
+                <button class="btn btn-success" onclick="atender()">LLamar al siguiente</button>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    function atender(e) {
+        window.location.href = "@Url.Action("Atender","Home",new { idturno=Model.Idturno})";
+    }
+
+    function terminarAtencion(e) {
+        window.location.href = "@Url.Action("TerminarAtencion", "Home",new { idturno=Model.Idturno})";
+    }
+
+    function noSePresento(e) {
+         window.location.href = "@Url.Action("TurnoNoSePresento", "Home",new { idturno=Model.Idturno})";
+    }
+
+    function iniciarAtencion(e) {
+        window.location.href = "@Url.Action("IniciarAtencion", "Home",new { idturno=Model.Idturno})";
+    }
+
+</script>
+                
